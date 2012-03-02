@@ -1,0 +1,8 @@
+
+2012-03-02  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.5.9: 
+	- tclsqlite3 v3.7.10.0 with wxSQLite3 v3.0.0 AES 128bit encryption.
+	- Show password dialog when opening an encrypted database.
+	- Show a console window by pressing <Control-F12>.
+
