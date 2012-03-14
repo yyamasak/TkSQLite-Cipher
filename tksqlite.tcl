@@ -14965,14 +14965,7 @@ if {$pref(usesession) != 0 && [file exists $::Session::file]} {
 
 if {[llength $argv] > 0} {
 	if {$database(name) ne ""} { Cmd::closeDB }
-	set _file [lindex $argv 0]
-	if {[namespace exists ::starkit]} {
-		set _file [encoding convertfrom $::SYSENCODING $_file]
-		Cmd::openDB [file normalize [file join $_startdir $_file]]
-	} else {
-		Cmd::openDB [file normalize [file join $_currentdir $_file]]
-	}
-	unset _file
+	Cmd::openDB [file normalize [lindex $argv 0]]
 } else {
 	set _file [lindex $pref(open_file) 0]
 	set _ver  [lindex $pref(open_file) 1]

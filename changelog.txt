@@ -1,4 +1,13 @@
 
+2012-03-14  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.6.0: 
+	- When a database path is passed as a command line argument, an error occurs.
+	  This is because the original TkSQLite assumes that it is wrapped by Starkit while I used TclApp.
+	  TclApp is variant of Starkit but it does not set _startdir global variable.
+	  But I guess this version works even when you use Starkit.
+
+
 2012-03-02  Yusuke Yamasaki  <tm9233yy@gmail.com>
 
 	* 0.5.9: Based on the original script version 0.5.8 by Yoshio Otsuka.

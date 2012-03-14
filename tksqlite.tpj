@@ -2,7 +2,7 @@ format  {TclDevKit Project File}
 fmtver  2.0
 fmttool {TclDevKit TclApp} 3.2
 
-##  Saved at : Tue Mar 06 19:36:47 東京 (標準時) 2012
+##  Saved at : Wed Mar 14 13:17:55 東京 (標準時) 2012
 ##  By       : yusuke@Yusuke-E6410
 
 ########
@@ -35,7 +35,7 @@ Package                Img-1.4.0.4
 Path                   {Relativeto .}
 Path                   {File ./tksqlite.tcl}
 Path                   Startup
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {ActiveState Software Inc.} OriginalFilename tksqlite.exe FileVersion 0.5.9 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.5.9}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.5.9 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.5.9}
 System/TempDir         {}
 System/Verbose         0
 Wrap/Compile/NoTbcload 0
