@@ -14913,8 +14913,8 @@ proc ModalFormDialog::show {title msg} {
 	wm attribute $t -toolwindow 1 -topmost 1
 	wm protocol $t WM_DELETE_WINDOW [namespace code {on_click Cancel}]
 	
-	label $t.l -text $msg
-	entry $t.e -textvariable [namespace current]::params(txt)
+	ttk::label $t.l -text $msg
+	ttk::entry $t.e -textvariable [namespace current]::params(txt)
 	
 	bind $t.e <Return> [namespace code {on_click OK}]
 	
