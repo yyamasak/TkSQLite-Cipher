@@ -14918,9 +14918,9 @@ proc ModalFormDialog::show {title msg} {
 	
 	bind $t.e <Return> [namespace code {on_click OK}]
 	
-	button $t.ok     -text "OK"     -command [namespace code {on_click OK}]
-	button $t.c      -text "Clear"  -command [namespace code {on_click Clear}]
-	button $t.cancel -text "Cancel" -command [namespace code {on_click Cancel}]
+	ttk::button $t.ok     -text "OK"     -command [namespace code {on_click OK}]
+	ttk::button $t.c      -text "Clear"  -command [namespace code {on_click Clear}]
+	ttk::button $t.cancel -text "Cancel" -command [namespace code {on_click Cancel}]
 	
 	grid $t.l  -    -        -sticky news
 	grid $t.e  -    -        -sticky news

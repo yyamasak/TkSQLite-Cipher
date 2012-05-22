@@ -11,7 +11,7 @@ fmttool {TclDevKit TclApp PackageDefinition} 3.2
 ##
 #
 
-Package {sqlite3 3.7.10.0}
+Package {sqlite3 3.7.10}
 Base    @TAP_DIR@
 Path    pkgIndex.tcl
 Path    sqlite3710.dll
