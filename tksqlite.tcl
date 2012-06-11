@@ -35,7 +35,7 @@ exec wish "$0" ${1+"$@"}
 set COPYRIGHT {
 Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 OHTSUKA, Yoshio
 This program is free to use, modify, extend at will. The author(s)
-provides no warrantees, guarantees or any responsibility for usage.
+provides no warranties, guarantees or any responsibility for usage.
 Redistributions in any form must retain this copyright notice.
 ohtsuka.yoshio@gmail.com
 }
