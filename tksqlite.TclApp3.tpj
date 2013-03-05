@@ -17,6 +17,7 @@ Encoding               cp932
 Encoding               shiftjis
 Encoding               utf-8
 Package                treectrl-2.3.2
+Package                sqlite-2.8.17
 Package                sqlite3-3.7.15
 Package                aes-1.0.2
 Package                des-1.1.0
@@ -34,7 +35,7 @@ Package                Img-1.4.0.4
 Path                   {Relativeto .}
 Path                   {File ./tksqlite.tcl}
 Path                   Startup
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.2 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.2}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.3 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.3}
 System/TempDir         {}
 System/Verbose         0
 Wrap/Compile/NoTbcload 0

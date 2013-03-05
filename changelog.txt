@@ -1,6 +1,11 @@
 
 2013-03-05  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
+	* 0.6.3: 
+	- bug: Changes at 0.6.2 drops sqlite2 compatibility.
+	- new: Added tclsqlite 2.8.17. Now sqlite2 database support comes back. No encryption support for sqlite2.
+	- new: Show an error dialog when a selected file does not exist.
+
 	* 0.6.2: 
 	- bug: An application error occurs when Help->Version is selected from menubar.
 	  "Error: invalid command name "sqlite"

@@ -13960,6 +13960,11 @@ proc Cmd::openDB {filename {version {}}} {
 		set filename [tk_getOpenFile -filetypes $::pref(openTypeSqlite)]
 		if { $filename eq {} } return ;# Cancel
 	}
+	if {![file exists $filename]} {
+		::Message::show -icon warning -type ok -parent . \
+			-message "File \"$filename\" does not exist."
+		return
+	}
 	if {[catch {::Sqlite::tryOpen $filename $version} ret]} {
 		if {[ModalFormDialog::show "AES128bit key" "Input password:"]} {
 			array set params [ModalFormDialog::get]
