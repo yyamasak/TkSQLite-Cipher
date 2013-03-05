@@ -2,7 +2,7 @@ format  {TclDevKit Project File}
 fmtver  2.0
 fmttool {TclDevKit TclApp} 3.2
 
-##  Saved at : Tue Mar 27 21:42:38 東京 (標準時) 2012
+##  Saved at : Tue Feb 05 20:07:08 東京 (標準時) 2013
 ##  By       : yusuke@Yusuke-E6410
 
 ########
@@ -16,29 +16,29 @@ App/Package            {}
 Encoding               cp932
 Encoding               shiftjis
 Encoding               utf-8
-Package                sqlite3-3.7.10.0
+Package                treectrl-2.3.2
+Package                sqlite3-3.7.15
 Package                aes-1.0.2
 Package                des-1.1.0
 Package                blowfish-1.0.4
 Package                sha1-2.0.3
 Package                Trf-2.1.4
-Package                treectrl-2.2.10
 Package                msgcat-1.3
 Package                md5crypt-1.1.0
 Package                md5-2.0.7
 Package                dict-8.5.3.1
 Package                uuid-1.0.1
-Package                Tktable-2.10
+Package                Tktable
 Package                tile-0.8.3
 Package                Img-1.4.0.4
 Path                   {Relativeto .}
 Path                   {File ./tksqlite.tcl}
 Path                   Startup
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.5.9 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.5.9}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.1 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.1}
 System/TempDir         {}
 System/Verbose         0
 Wrap/Compile/NoTbcload 0
-Wrap/Compile/Tcl       1
+Wrap/Compile/Tcl       0
 Wrap/FSMode            {}
 Wrap/Icon              {}
 Wrap/InputPrefix       C:/Tcl/bin/base-tk-thread-win32-ix86.exe

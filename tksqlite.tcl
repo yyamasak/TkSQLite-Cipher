@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.5.9
+set VERSION 0.6.1
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -8201,9 +8201,16 @@ proc Sqlite::open {filename version} {
 	variable interp
 	
 	switch -exact -- $version {
-		2 { interp alias {} sqlite $interp(2) sqlite }
-		3 { interp alias {} sqlite $interp(3) sqlite3 }
-		default {return -code error "version is $version"}
+		2 {
+			interp alias {} sqlite $interp(2) sqlite
+		}
+		3 {
+			interp alias {} sqlite $interp(3) sqlite3
+			interp alias $interp(3) sqlite $interp(3) sqlite3
+		}
+		default {
+			return -code error "version is $version"
+		}
 	}
 	set interp(current) $interp($version)
 	

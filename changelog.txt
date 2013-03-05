@@ -1,4 +1,11 @@
 
+2013-01-28  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.6.1: 
+	- tclsqlite3 v3.7.15.1 with wxSQLite3 v3.0.2 AES 128 bit encryption.
+	- No bytecode compilation.
+
+
 2012-03-14  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.6.0: 
