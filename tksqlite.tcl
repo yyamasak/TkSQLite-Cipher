@@ -8200,17 +8200,8 @@ proc Sqlite::open {filename version} {
 	variable cmd
 	variable interp
 	
-	switch -exact -- $version {
-		2 {
-			interp alias {} sqlite $interp(2) sqlite
-		}
-		3 {
-			interp alias {} sqlite $interp(3) sqlite3
-			interp alias $interp(3) sqlite $interp(3) sqlite3
-		}
-		default {
-			return -code error "version is $version"
-		}
+	if {$version ni {2 3}} {
+		return -code error "version is $version"
 	}
 	set interp(current) $interp($version)
 	
@@ -9759,6 +9750,8 @@ proc Sqlite::init {} {
 	set ilist {}
 
 	if {![catch {$interp(2) eval "package require sqlite 2.0"}]} {
+		interp alias {} sqlite $interp(2) sqlite
+		
 		if {[$interp(2) eval "sqlite -encoding"] eq "iso8859"} {
 		defineFuctions $interp(2)
 		lappend ilist 2
@@ -9769,6 +9762,9 @@ proc Sqlite::init {} {
 	}
 
 	if {![catch {$interp(3) eval "package require sqlite3"}]} {
+		interp alias {} sqlite $interp(3) sqlite3
+		interp alias $interp(3) sqlite $interp(3) sqlite3
+		
 		$interp(3) eval "sqlite3 db :memory:"
 		set enc [$interp(3) eval "db eval {PRAGMA encoding}"]
 		$interp(3) eval "db close"

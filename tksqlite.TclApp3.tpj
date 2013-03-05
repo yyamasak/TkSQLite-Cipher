@@ -34,7 +34,7 @@ Package                Img-1.4.0.4
 Path                   {Relativeto .}
 Path                   {File ./tksqlite.tcl}
 Path                   Startup
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.1 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.1}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.2 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.2}
 System/TempDir         {}
 System/Verbose         0
 Wrap/Compile/NoTbcload 0

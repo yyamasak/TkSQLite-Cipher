@@ -46,7 +46,7 @@ Pkg/Reference          {sha1 2.0.3}
 Pkg/Reference          {sqlite3 3.7.15}
 Pkg/Reference          {treectrl 2.3.2}
 Pkg/Reference          {uuid 1.0.1}
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.1 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.1}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.6.2 LegalCopyright {2004-2009 OHTSUKA Yoshio, 2012 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.6.2}
 System/Nocompress      0
 System/TempDir         {}
 System/Verbose         0
