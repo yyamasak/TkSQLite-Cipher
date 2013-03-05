@@ -26,14 +26,16 @@ Background
 ----------
 TkSQLite was originally written by Yoshio Ohtsuka (http://reddog.s35.xrea.com/wiki/TkSQLite.html).
 I have been using it as the best frontend to sqlite3 database.
+
 One day, one of my customers wanted to protect his database with a password.
 Google told me a lot of solutions that encrypt and decrypt sqlite database
 and those were very expensive or hard to compile on windows platform.
+
 Then I found an open source project ["wxSQLite3"](http://wxcode.sourceforge.net/components/wxsqlite3/ "wxCode » Components » wxSQLite3").
 It was [relatively easy](http://yusuke-blog.info/20130109/tclsqlite-configuration/ "Tcl SQLite build configuration") 
 to integrate wxSQLite3 and TclSQLite package.
 
-I was using [SQLite2009 Pro Enterprise Manager](http://osenxpsuite.net/?xp=3 "SQLite2009 Pro Enterprise Manager") 
+For some time, I was using [SQLite2009 Pro Enterprise Manager](http://osenxpsuite.net/?xp=3 "SQLite2009 Pro Enterprise Manager") 
 as a frontend to the encrypted database but I was not content with the user interface.
 So I decided to customize original TkSQLite to support wxSQLite3's AES-128bit encryption.
 What I did for TkSQLite was to check if the database is encrypted and to show password dialog automatically.
