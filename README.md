@@ -42,8 +42,7 @@ What I did for TkSQLite was to check if the database is encrypted and to show pa
 
 Limitations
 -----------
-TkSQLite-AES128 does not support SQLite2.
-Encryption enabled sqlite package is provided only for windows platform.
+Encryption enabled sqlite3 binary package is provided only for windows platform.
 
 Screenshot
 ----------
