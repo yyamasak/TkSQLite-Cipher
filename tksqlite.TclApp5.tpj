@@ -56,7 +56,7 @@ Wrap/Compile/Tcl       0
 Wrap/Compile/Version   {}
 Wrap/FSMode            {}
 Wrap/Icon              {}
-Wrap/InputPrefix       C:/Tcl/bin/base-tk8.5-thread-win32-ix86.exe
+Wrap/InputPrefix       C:/Tcl/bin/tclkit-gui-8513.exe
 Wrap/Interpreter       {}
 Wrap/Merge             0
 Wrap/NoProvided        0
