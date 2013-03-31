@@ -1,4 +1,11 @@
 
+2013-04-01  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.6.4: 
+	- bug: An error occurs at startup on Linux.
+	  "Error in startup script: bad attribute "-toolwindow": must be -alpha, -topmost, -zoomed, -fullscreen, or -type"
+
+
 2013-03-05  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.6.3: 

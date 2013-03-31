@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.6.3
+set VERSION 0.6.4
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -14918,7 +14918,11 @@ proc ModalFormDialog::show {title msg} {
 	
 	wm resizable $t 0 0
 	wm title $t $title
-	wm attribute $t -toolwindow 1 -topmost 1
+	if {$::tcl_platform(platform) eq "windows"} {
+		wm attribute $t -topmost 1 -toolwindow 1
+	} else {
+		wm attribute $t -topmost 1
+	}
 	wm protocol $t WM_DELETE_WINDOW [namespace code {on_click Cancel}]
 	
 	ttk::label $t.l -text $msg
