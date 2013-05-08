@@ -33,7 +33,7 @@ exec wish "$0" ${1+"$@"}
 # License
 # ---------------------------------------------------------------------
 set COPYRIGHT {
-Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009 OHTSUKA, Yoshio
+Copyright (c) 2004 - 2013 OHTSUKA, Yoshio
 This program is free to use, modify, extend at will. The author(s)
 provides no warranties, guarantees or any responsibility for usage.
 Redistributions in any form must retain this copyright notice.
@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.6.4
+set VERSION 0.6.5
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -134,7 +134,7 @@ if {[join [lrange [split $tile_version .] 0 1] .] >= 0.8} {
 } else {
 	set tile_ns tile
 }
-if {[tk windowingsystem] eq "x11"} {
+if {$tcl_platform(platform) ne "windows"} {
 	${tile_ns}::setTheme clam
 }
 # here is for debug
@@ -1117,14 +1117,14 @@ option add *Entry.font       TkTextFont
 option add *Label.font       TkDefaultFont
 option add *Labelframe.font  TkDefaultFont
 option add *Listbox.font     TkTextFont
-;#option add *Menu.font        TkDefaultFont
+#option add *Menu.font        TkDefaultFont
 option add *Menubutton.font  TkDefaultFont
 option add *Radiobutton.font TkDefaultFont
 option add *Scale.font       TkDefaultFont
 option add *Spinbox.font     TkTextFont
 option add *Text.font        TkTextFont
 
-if {[tk windowingsystem] eq "aqua"} {
+if {$tcl_platform(os) eq "Darwin"} {
 	set pref(modifier) Command
 	set pref(shortmod) Command
 } else {
@@ -1171,7 +1171,7 @@ foreach _class {TCombobox TEntry} {
 
 switch -exact -- $tile_currentTheme {
 	aqua {
-		rename ttk::scrollbar ttk::_scrollbar
+		rename ttk::scrollbar ttk::__scrollbar
 		interp alias {} ::ttk::scrollbar {} ::scrollbar
 	}
 	clam {
@@ -1213,7 +1213,7 @@ style configure CheckInTreeSelected -padding 0 -background $pref(tile_selectbg)
 #
 # FS Dialogs
 #
-if {$tcl_platform(platform) eq "unix"} {
+if {$tcl_platform(platform) ne "windows" && $tcl_platform(os) ne "Darwin"} {
 # Copyright (C) Schelte Bron.  Freely redistributable.
 
 proc ttk::messageBox {args} {
@@ -3310,9 +3310,9 @@ namespace eval Util {;#<<<
 		if {$val eq $nullString} {
 			return "NULL"
 		}
-		if {[isNumber $val]} {
-			return $val
-		}
+		#if {[isNumber $val]} {
+		#	return $val
+		#}
 		return "'[string map {' ''} $val]'"
 	}
 	
@@ -5798,12 +5798,12 @@ proc Dbtree::Dbtree {} {
 	}
 	.dbtree.pop add separator
 	.dbtree.pop add command -label [msgcat::mc "Create Table"]... \
-	-command {::GUICmd::TableBuilder::run create}
+	-command {after 0 {::GUICmd::TableBuilder::run create}}
 ;#    .dbtree.pop add command -label [msgcat::mc "Create View"] -state disabled
 	.dbtree.pop add command -label [msgcat::mc "Create Index"]... \
-	-command {::GUICmd::CreateIndex::run}
+	-command {after 0 {::GUICmd::CreateIndex::run}}
 	.dbtree.pop add command -label [msgcat::mc "Create Trigger"]... \
-	-command {::GUICmd::CreateTrigger::run}
+	-command {after 0 {::GUICmd::CreateTrigger::run}}
 	.dbtree.pop add separator
 	.dbtree.pop add command -label [msgcat::mc "Drop Table/View"]... -command {Cmd::dropTable}
 ;#    .dbtree.pop add command -label [msgcat::mc "Drop Index"]...
@@ -5811,7 +5811,7 @@ proc Dbtree::Dbtree {} {
 	.dbtree.pop add separator
 
 	.dbtree.pop add command -label [msgcat::mc "Modify Table Schema"]... \
-	-command {::GUICmd::TableBuilder::run modify}
+	-command {after 0 {::GUICmd::TableBuilder::run modify}}
 
 	# Define additional behavior of tree
 	bind .dbtree.f.tree <ButtonPress-1> [namespace code {
@@ -6062,7 +6062,7 @@ proc Property::Property {} {
 	::Cmd::showSQLStatement [lindex [::Property::getSelectedIndex] 5]}
 	$tab(index).pop add separator
 	$tab(index).pop add command -label [msgcat::mc "Create Index"]... \
-	-command {::GUICmd::CreateIndex::run}
+	-command {after 0 {::GUICmd::CreateIndex::run}}
 	$tab(index).pop add command -label [msgcat::mc "Drop Index"]... \
 	-command {::Cmd::dropIndex}
 	Cmd::bindTextFocusTtkEntry $tab(index).table $tab(index)
@@ -6097,7 +6097,7 @@ proc Property::Property {} {
 	}]
 	$tab(trigger).pop add separator
 	$tab(trigger).pop add command -label [msgcat::mc "Create Trigger"]... \
-	-command {::GUICmd::CreateTrigger::run}
+	-command {after 0 {::GUICmd::CreateTrigger::run}}
 	$tab(trigger).pop add command -label [msgcat::mc "Drop Trigger"]... \
 	-command {::Cmd::dropTrigger}
 	
@@ -7248,10 +7248,10 @@ proc Table::Table {} {;#<<<
 	}
 	.table.pop add separator
 	.table.pop add command -label [msgcat::mc Search]... -accelerator F3 -command {
-		::Tool::Searcher::run
+		after 0 {::Tool::Searcher::run}
 	}
 	.table.pop add command -label [msgcat::mc "Data Editor"]... -accelerator F4 -command {
-		::Tool::DataEditor::run
+		after 0 {::Tool::DataEditor::run}
 	}
 	.table.pop add separator
 	.table.pop add command -label [msgcat::mc Update] -accelerator F5 -command {
@@ -9290,7 +9290,7 @@ namespace eval Sqlite::func {
 	}
 	proc locate    {sstr str pos} {instr $str $sstr $pos 1}
 	proc position  {sstr in str} {instr $str $sstr}
-	proc left      {s n} {string range $s 0 [incr n -1]}
+	#    left      Sqlite keyword
 	#    length    Sqlite built-in
 	#    lower     Sqlite built-in
 	proc lpad      {s n {p " "}} {
@@ -9329,7 +9329,7 @@ namespace eval Sqlite::func {
 	proc repeat    {s n} {string repeat $s $n}
 	proc replace   {s f t} {string map [list $f $t] $s}
 	proc reverse   {s} {set i [string len $s]; set r ""; while {[incr i -1] >= 0} {append r [string index  $s $i] }; return $r}
-	proc right     {s n} {string range $s end-[incr n -1] end}
+	#    right     Sqlite keyword
 	proc rpad      {s n {p " "}} {
 		if {$p eq {}} {set p " "}
 		set i 0
@@ -10106,6 +10106,7 @@ proc Tool::DataEditor::_init {} {;#<<<
 	variable info
 	variable root
 
+package require Img
 	if {![winfo exists $root]} {
 		if {[catch {package require Img}]} {
 			set ::pref(openTypeImage) $::pref(openTypeImageNoImg)
@@ -14496,12 +14497,8 @@ proc Cmd::changeTableLookAndFeel {table} {
 	}
 
 	set drawmode compatible
-	if {$::tk_version >= 8.5 && $::tcl_platform(platform) eq "unix"} {
-		if {[info command ::tk::pkgconfig] ne ""} {
-			if {[::tk::pkgconfig get fontsystem] eq "xft"} {
-				set drawmode slow
-			}
-		}
+	if {$::tk_version >= 8.5 && $::tcl_platform(platform) ne "windows"} {
+		set drawmode slow
 	}
 
 	$table configure -highlightthickness 0 -fg black -bg gray60 -anchor w \
@@ -14661,26 +14658,16 @@ proc Cmd::bindTextFocusTtkEntry {text frame} {
 # dump main window infomation
 proc Cmd::dump {} {
 	set session ""
-	if {[tk windowingsystem] eq "x11"} {
-		append session "wm withdraw .\n"
-		append session "wm geometry . [wm geometry .]\n"
-		append session "wm deiconify .\n"
-		append session "update\n"
-		append session ".root  sashpos 0 [.root  sashpos 0]\n"
-		append session ".left  sashpos 0 [.left  sashpos 0]\n"
-		append session ".right sashpos 0 [.right sashpos 0]\n"
-		append session ".right sashpos 1 [.right sashpos 1]\n"
-	} else {
-		append session "wm geometry . [winfo width .]x[winfo height .]+10000+10000\n"
-		append session "wm deiconify .\n"
-		append session "update\n"
-		append session ".root  sashpos 0 [.root  sashpos 0]\n"
-		append session ".left  sashpos 0 [.left  sashpos 0]\n"
-		append session ".right sashpos 0 [.right sashpos 0]\n"
-		append session ".right sashpos 1 [.right sashpos 1]\n"
-		append session "wm geometry . +[winfo x .]+[winfo y .]\n"
-		append session "update\n"
-	}
+	append session "wm geometry . [winfo width .]x[winfo height .]\n"
+	append session "wm geometry . +[winfo x .]+[winfo y .]\n"
+	append session "wm deiconify .\n"
+	append session "update\n"
+	append session ".root  sashpos 0 [.root  sashpos 0]\n"
+	append session ".left  sashpos 0 [.left  sashpos 0]\n"
+	append session ".right sashpos 0 [.right sashpos 0]\n"
+	append session ".right sashpos 1 [.right sashpos 1]\n"
+	append session "update\n"
+	
 	append session "set ::pref(enable_encoding) [list $::pref(enable_encoding)]\n"
 	if {$::database(name) ne {}} {
 	append session "set ::database(encoding) $::database(encoding)\n"
@@ -14975,9 +14962,26 @@ if {$pref(usesession) != 0 && [file exists $::Session::file]} {
 	.right sashpos 1 390
 }
 
+# OSX Bundled app has process serial number as a first argv.
+# the first argv is recognized as sqlite db file by tksqlite.
+# So remove the argv.
+if {$tcl_platform(os) eq "Darwin"} {
+	if {[string match "-psn_0_*" [lindex $argv 0]]} {
+		set argv [lrange $argv 1 end]
+		incr argc -1
+	}
+}
+
 if {[llength $argv] > 0} {
 	if {$database(name) ne ""} { Cmd::closeDB }
-	Cmd::openDB [file normalize [lindex $argv 0]]
+	set _file [lindex $argv 0]
+	if {[namespace exists ::starkit]} {
+		set _file [encoding convertfrom $::SYSENCODING $_file]
+		Cmd::openDB [file normalize [file join $::starkit::topdir .. $_file]]
+	} else {
+		Cmd::openDB [file normalize [file join $_currentdir $_file]]
+	}
+	unset _file
 } else {
 	set _file [lindex $pref(open_file) 0]
 	set _ver  [lindex $pref(open_file) 1]
