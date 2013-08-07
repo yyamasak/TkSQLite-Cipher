@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.6.6
+set VERSION 0.6.7
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -13945,6 +13945,13 @@ namespace eval Cmd {};#<<<
 
 # Create & Open New DB
 proc Cmd::createDB {version} {
+	if {$version == 3 && [ModalFormDialog::show "AES128bit key" "Input password:"]} {
+		array set params [ModalFormDialog::get]
+		set ::encryption_key $params(txt)
+		ModalFormDialog::clear
+	} else {
+		set ::encryption_key {}
+	}
 	set file [Sqlite::create $version]
 	if {$file ne {}} {
 		RecentFile::append $file
@@ -14869,12 +14876,14 @@ proc main {} {
 namespace eval ModalFormDialog {
 	variable params; # form parameter array
 	variable res
-	array set params {}
+	set params(txt) ""
+	set params(show) 0
 }
 
 proc ModalFormDialog::clear {} {
 	variable params
 	set params(txt) ""
+	set params(show) 0
 }
 
 proc ModalFormDialog::get {} {
@@ -14898,6 +14907,15 @@ proc ModalFormDialog::on_click {btn} {
 	}
 }
 
+proc ModalFormDialog::on_toggle_show_password {t} {
+	variable params
+	if {$params(show)} {
+		$t.e configure -show {}
+	} else {
+		$t.e configure -show {*}
+	}
+}
+
 proc ModalFormDialog::show {title msg} {
 	variable res 0
 	
@@ -14913,7 +14931,8 @@ proc ModalFormDialog::show {title msg} {
 	wm protocol $t WM_DELETE_WINDOW [namespace code {on_click Cancel}]
 	
 	ttk::label $t.l -text $msg
-	ttk::entry $t.e -textvariable [namespace current]::params(txt)
+	ttk::entry $t.e -show "*" -textvariable [namespace current]::params(txt)
+	ttk::checkbutton $t.x -variable [namespace current]::params(show) -command [namespace code "on_toggle_show_password $t"]
 	
 	bind $t.e <Return> [namespace code {on_click OK}]
 	
@@ -14921,9 +14940,9 @@ proc ModalFormDialog::show {title msg} {
 	ttk::button $t.c      -text "Clear"  -command [namespace code {on_click Clear}]
 	ttk::button $t.cancel -text "Cancel" -command [namespace code {on_click Cancel}]
 	
-	grid $t.l  -    -        -sticky news
-	grid $t.e  -    -        -sticky news
-	grid $t.ok $t.c $t.cancel
+	grid $t.l  -    -         -          -sticky news
+	grid $t.e  -    -         $t.x       -sticky news
+	grid $t.ok $t.c $t.cancel x
 	
 	vwait [namespace which -variable res]
 	destroy $t
