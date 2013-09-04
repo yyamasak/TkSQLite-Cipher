@@ -1,0 +1,10 @@
+language: tcl
+tcl:
+  - "8.5"
+script:
+  - wish tksqlite.tcl
+notification:
+  emails:
+    - tm9233yy@gmail.com
+  on_success: change
+  on_failure: change
