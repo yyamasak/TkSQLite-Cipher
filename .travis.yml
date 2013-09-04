@@ -2,7 +2,7 @@ language: tcl
 tcl:
   - "8.5"
 script:
-  - wish tksqlite.tcl
+  - tclsh tksqlite.tcl
 notification:
   emails:
     - tm9233yy@gmail.com
