@@ -1,4 +1,16 @@
 
+2013-09-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.7.0: 
+	- new: Updated basekit from tclkit-gui-8514.exe to tclkit-gui-8515.exe.
+
+
+2013-09-17  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.6.9: 
+	- new: sqlite3 v3.8.0.2 with wxSQLite3 v3.0.5 AES 128 bit encryption.
+
+
 2013-09-04  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.6.8: 
