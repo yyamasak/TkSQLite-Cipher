@@ -10106,9 +10106,8 @@ proc Tool::DataEditor::_init {} {;#<<<
 	variable info
 	variable root
 
-package require Img
 	if {![winfo exists $root]} {
-		if {[catch {package require Img}]} {
+		if {[LoadTkImg]} {
 			set ::pref(openTypeImage) $::pref(openTypeImageNoImg)
 		} else {
 			set ::pref(openTypeImage) $::pref(openTypeImageWithImg)
@@ -10250,6 +10249,41 @@ package require Img
 	}
 	set info(currenttab) [$note index current]
 };#>>>
+
+proc Tool::DataEditor::LoadTkImg {} {
+	if {[catch {
+		package require img::base
+		
+		set pkgs {}
+		lappend pkgs img::bmp
+		lappend pkgs img::gif
+		lappend pkgs img::ico
+		lappend pkgs img::jpeg
+		lappend pkgs img::pcx
+		if {$::tcl_platform(platform) ne "windows"} {
+		lappend pkgs img::pixmap; # pixmap has a bug on windows
+		}
+		lappend pkgs img::png
+		lappend pkgs img::ppm
+		lappend pkgs img::ps
+		lappend pkgs img::sgi
+		lappend pkgs img::sun
+		lappend pkgs img::tga
+		lappend pkgs img::tiff
+		lappend pkgs img::window
+		lappend pkgs img::xbm
+		lappend pkgs img::xpm
+		foreach pkg $pkgs {
+			catch {package require $pkg}
+		}
+		return 0
+	}]} {
+		if {[catch {package require Img}]} {
+			return 0
+		}
+	}
+	return 1
+}
 
 proc Tool::DataEditor::useViBind {n1 n2 op} {
 	variable text
@@ -14825,6 +14859,9 @@ proc main {} {
 		}
 		if {![catch {package present Img} v]} {
 		lappend m "Img $v"
+		}
+		if {![catch {package present img::base} v]} {
+		lappend m "img::base $v"
 		}
 		set h [expr {[llength $m] / 2}]
 			if {([llength $m] % 2) != 0} {
