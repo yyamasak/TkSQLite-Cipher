@@ -2,7 +2,7 @@
 2013-10-16  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.7.1: 
-	- bug: An error message, "can't find package Img" is shown when trying to open a Data Editor (Thanks Peter).
+	- bug: An error message, "can't find package Img" appears when trying to open a Data Editor (Thanks Peter).
 	  + Switched to use img::base and its plugin packages instead of using Img package.
 
 
