@@ -120,7 +120,7 @@ namespace eval Sqlite::func {
 
 	# String Format
 	proc ascii     {a} {binary scan $a c x; return $x}
-	proc char      args {set r ""; foreach c $args {append r [binary format c $c]}; return $r}
+	#    char      Sqlite built-in
 	proc concat    args {join $args {}}
 	proc concat_ws {s args} {join $args $s}
 	proc convert {str from to} {
@@ -146,7 +146,7 @@ namespace eval Sqlite::func {
 		}
 	}
 	proc elt       {n args} {lindex $args [incr n -1]}
-	proc hex       {n} {format %X $n}
+	#    hex       Sqlite built-in
 	proc initcap   {str} {
 		set ret ""
 		set len [string length $str]
@@ -167,7 +167,8 @@ namespace eval Sqlite::func {
 		return $ret
 	}
 	proc insert    {s pos len ns} {string replace $s [expr {$pos-1}] [expr {$pos-2+$len}] $ns} ;#MySQL insert
-	proc instr     {str sstr {st 0} {n 1}} {
+	#    instr     Sqlite built-in
+	proc _instr     {str sstr {st 0} {n 1}} {
 		if {$n < 1} {return 0}
 		if {$st >= 0} {
 			incr st -1
@@ -186,8 +187,8 @@ namespace eval Sqlite::func {
 		}
 		return $st
 	}
-	proc locate    {sstr str pos} {instr $str $sstr $pos 1}
-	proc position  {sstr in str} {instr $str $sstr}
+	proc locate    {sstr str pos} {_instr $str $sstr $pos 1}
+	proc position  {sstr in str} {_instr $str $sstr}
 	proc left      {s n} {string range $s 0 [incr n -1]}
 	#    length    Sqlite built-in
 	#    lower     Sqlite built-in
@@ -221,11 +222,11 @@ namespace eval Sqlite::func {
 			append rstr $c
 		}
 	}
-	proc ltrim     {s {c " "}} {string trimleft $s $c}
+	#    ltrim     Sqlite built-in
 	proc mid       {str pos len} {incr pos -1; string range $str $pos [expr {$pos+$len-1}]}
 	
 	proc repeat    {s n} {string repeat $s $n}
-	proc replace   {s f t} {string map [list $f $t] $s}
+	#    replace   Sqlite built-in
 	proc reverse   {s} {set i [string len $s]; set r ""; while {[incr i -1] >= 0} {append r [string index  $s $i] }; return $r}
 	proc right     {s n} {string range $s end-[incr n -1] end}
 	proc rpad      {s n {p " "}} {
@@ -244,7 +245,7 @@ namespace eval Sqlite::func {
 			append ret $c
 		}
 	}
-	proc rtrim     {s {c " "}} {string trimright $s $c}
+	#    rtrim     Sqlite built-in
 	#    substr    Sqlite built-in
 	proc space     {n} {string repeat " " $n}
 	#    strftime  Sqlite built-in
@@ -256,7 +257,7 @@ namespace eval Sqlite::func {
 		}
 		string map $map $s
 	}
-	proc trim      {s {c " "}} {string trim $s $c}
+	#    trim      Sqlite built-in
 	proc to_char {num fmt} {
 		set fmt [string map {G , D . L \$} $fmt]
 		if {![string is double $num]} {return "####"}
