@@ -12,7 +12,7 @@ Double click "tksqlite.exe".
 
 Installation (Tcl script)
 -------------------------
-Install ActiveTcl (>8.4).
+Install ActiveTcl (>=8.4).
 Download "/tksqlite.tcl" and "/sqlite3-aes128/sqlite-3.x.x.x-aes128".
 Place tksqlite.tcl in any folder and sqlite-3.x.x.x-aes128 in Tcl/lib folder.
 Double click "tksqlite.tcl".
