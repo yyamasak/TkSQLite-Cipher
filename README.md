@@ -46,4 +46,4 @@ Encryption enabled sqlite3 binary package is provided only for windows platform.
 
 Screenshot
 ----------
-![TkSQLite screenshot](/img/TkSQLite-aes128-Screenshot.png "TkSQLite-aes128 screenshot")
+![TkSQLite screenshot](https://raw.github.com/yyamasak/TkSQLite-AES128/master/img/TkSQLite-aes128-Screenshot.png "TkSQLite-aes128 screenshot")
