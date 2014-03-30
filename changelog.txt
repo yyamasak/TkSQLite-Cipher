@@ -1,4 +1,11 @@
 
+2014-03-11  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.7.4: 
+	- new: Merged the original TkSQLite v0.5.10 (2013-07-20).
+	  Now it is possible to update records from the table editor.
+
+
 2013-12-09  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.7.3: 

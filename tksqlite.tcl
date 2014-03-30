@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.6.7
+set VERSION 0.7.4
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -7850,11 +7850,11 @@ proc Table::edit {db tablename} {
 	setEditable $db $tablename 1
 	set tname "'$db'.'$tablename'"
 
-	if {[::Sqlite::publish "SELECT rowid FROM $tname" rowid {}] == 1} {
+	if {[::Sqlite::publish "SELECT rowid FROM $tname order by rowid" rowid {}] == 1} {
 		return 1
 	}
 	$tablew configure -variable ""
-	if {[::Sqlite::publish "SELECT * FROM $tname" table rawdata] == 1} {
+	if {[::Sqlite::publish "SELECT * FROM $tname order by rowid" table rawdata] == 1} {
 		$tablew configure -variable ::Table::table
 		return 1
 	}
