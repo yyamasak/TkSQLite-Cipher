@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.7.4
+set VERSION 0.8.0
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -13541,7 +13541,10 @@ proc GUICmd::ImportText::preview {} {
 	$tablew width 0 3
 	::Cmd::changeTableLookAndFeel $tablew
 	bind $tablew <MouseWheel> {
-		%W yview scroll [expr {-(%D/120) * 4}] units
+		%W yview scroll [expr {-(%D/abs(%D)) * 4}] units
+	}
+	bind $tablew <Shift-MouseWheel> {
+		%W xview scroll [expr {-(%D/abs(%D)) * 1}] units
 	}
 	set deleteCmd "destroy $pre; ::tk::RestoreFocusGrab $pre $pre destroy"
 	$f.cmd.close configure -command $deleteCmd
@@ -14563,7 +14566,10 @@ proc Cmd::changeTableLookAndFeel {table} {
 	eval $table tag col default [Util::range 1 200]
 
 	bind $table <MouseWheel> {
-		%W yview scroll [expr {-(%D/120) * 4}] units
+		%W yview scroll [expr {-(%D/abs(%D)) * 4}] units
+	}
+	bind $table <Shift-MouseWheel> {
+		%W xview scroll [expr {-(%D/abs(%D)) * 1}] units
 	}
 }
 
