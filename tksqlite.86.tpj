@@ -1,0 +1,74 @@
+format  {TclDevKit Project File}
+fmtver  2.0
+fmttool {TclDevKit TclApp} 5.3
+
+##  Saved at : Sun Mar 30 17:13:27 +0900 2014
+##  By       : yusuke@yusuke-t440p
+
+########
+#####
+###
+##
+#
+
+App/Code               {}
+App/Package            {}
+App/PostCode           {}
+Metadata               {}
+OSX/Info.plist         {}
+Path                   {Relativeto .}
+Path                   {File ./tksqlite.tcl}
+Path                   Startup
+Pkg/Architecture       win32-ix86
+Pkg/Reference          {Tktable 2.11}
+Pkg/Reference          {Trf 2.1.4}
+Pkg/Reference          {aes 1.0.2}
+Pkg/Reference          {blowfish 1.0.4}
+Pkg/Reference          {des 1.1.0}
+Pkg/Reference          {img::base 1.4.2}
+Pkg/Reference          {img::bmp 1.4.2}
+Pkg/Reference          {img::gif 1.4.2}
+Pkg/Reference          {img::ico 1.4.2}
+Pkg/Reference          {img::jpeg 1.4.2}
+Pkg/Reference          {img::pcx 1.4.2}
+Pkg/Reference          {img::png 1.4.2}
+Pkg/Reference          {img::ppm 1.4.2}
+Pkg/Reference          {img::sgi 1.4.2}
+Pkg/Reference          {img::sun 1.4.2}
+Pkg/Reference          {img::tga 1.4.2}
+Pkg/Reference          {img::tiff 1.4.2}
+Pkg/Reference          {img::xbm 1.4.2}
+Pkg/Reference          {img::xpm 1.4.2}
+Pkg/Reference          {jpegtcl 8.4}
+Pkg/Reference          {md5 2.0.7}
+Pkg/Reference          {md5crypt 1.1.0}
+Pkg/Reference          {pngtcl 1.4.12}
+Pkg/Reference          {sha1 2.0.3}
+Pkg/Reference          {sqlite 2.8.17}
+Pkg/Reference          {sqlite3 3.8.2}
+Pkg/Reference          {tifftcl 3.9.4}
+Pkg/Reference          {treectrl 2.4.1}
+Pkg/Reference          {uuid 1.0.2}
+Pkg/Reference          {zlibtcl 1.2.8}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004- OHTSUKA Yoshio, 2012-2014 Y.Yamasaki} FileVersion 0.8.0.0 ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.8.0.0}
+System/Nocompress      0
+System/TempDir         {}
+System/Verbose         0
+Wrap/Compile/NoTbcload 0
+Wrap/Compile/Tcl       0
+Wrap/Compile/Version   {}
+Wrap/FSMode            {}
+Wrap/Icon              {}
+Wrap/InputPrefix       C:/Tcl/bin/tclkit-gui-8_6_1-x86-max.exe
+Wrap/Interpreter       {}
+Wrap/Merge             0
+Wrap/NoProvided        0
+Wrap/NoSpecials        0
+Wrap/Output            ./tksqlite.exe
+Wrap/Output/OSXApp     0
+
+#
+##
+###
+#####
+########
