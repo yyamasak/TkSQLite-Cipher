@@ -9,13 +9,13 @@
 2013-12-09  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.7.3: 
-	- new: sqlite3 v3.8.2 with wxSQLite3 v3.0.6 AES 128 bit encryption.
+	- new: sqlite3 v3.8.2 with wxSQLite3 v3.0.6.1 AES 128 bit encryption.
 
 
 2013-10-16  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.7.2: 
-	- fix: Removed user functions which overwrote native SQLite3 functions.
+	- fix: Removed user functions which had overridden native SQLite3 functions.
 	  (If you need them for SQLite2, you can load sqlitefunc.tcl v0.5.)
 
 	* 0.7.1: 
