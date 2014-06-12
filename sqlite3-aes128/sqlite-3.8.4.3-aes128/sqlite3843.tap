@@ -1,0 +1,23 @@
+format  {TclDevKit Project File}
+fmtver  2.0
+fmttool {TclDevKit TclApp PackageDefinition} 5.3
+
+##  Saved at : Mon Jun 09 09:31:47 +0900 2014
+##  By       : yusuke@yusuke-t440p
+
+########
+#####
+###
+##
+#
+
+Package {sqlite3 3.8.4.3}
+Base    @TAP_DIR@
+Path    pkgIndex.tcl
+Path    sqlite3843.dll
+
+#
+##
+###
+#####
+########

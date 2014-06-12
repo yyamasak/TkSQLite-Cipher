@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.8.0
+set VERSION 0.8.1
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -5060,6 +5060,11 @@ proc SQLParser::parseFKeyDef {sql posName} {
 					}
 					CASCADE  {set acttype cascade}
 					RESTRICT {set acttype restrict}
+					NO {
+						set word [string toupper [token $sql pos]]
+						set prepos $pos
+						continue
+					}
 					default  {return}
 				}
 				dict set info $act $acttype
@@ -10855,13 +10860,34 @@ proc GUICmd::TableBuilder::_init {{tabledata {}}} {;#<<<
 				set len [dict size [dict get $tabledata constraint]]
 				for {set i 0} {$i < $len} {incr i} {
 					set const [dict get $tabledata constraint $i]
-					if {[dict get $const type] eq "check"} {
-						set tableconst(check) [dict get $const value]
-						if {[dict exists $const conflict]} {
-							set tableconst(checkconflict) \
-								[string toupper [dict get $const conflict]]
+					switch [dict get $const type] {
+						check {
+							set tableconst(check) [dict get $const value]
+							if {[dict exists $const conflict]} {
+								set tableconst(checkconflict) \
+									[string toupper [dict get $const conflict]]
+							}
+							break
 						}
-						break
+						fkey {
+							set tableconst(fkey,table) [dict get $const table]
+							set fromcolumns {}
+							dict for {num col} [dict get $const fromcolumn] {
+								lappend fromcolumns $col
+							}
+							set tableconst(fkey,fromcolumn) $fromcolumns
+							set tocolumns {}
+							dict for {num col} [dict get $const tocolumn] {
+								lappend tocolumns $col
+							}
+							set tableconst(fkey,tocolumn) $tocolumns
+							if {[dict exists $const ondelete]} {
+								set tableconst(fkey,ondelete) [dict get $const ondelete]
+							}
+							if {[dict exists $const onupdate]} {
+								set tableconst(fkey,onupdate) [dict get $const onupdate]
+							}
+						}
 					}
 				}
 			}
@@ -11525,7 +11551,12 @@ proc GUICmd::TableBuilder::runSQL {} {
 		Editor::setText $query
 		return 0
 	} else {
-		if {[Sqlite::evalQuery $query] != 0} {
+		Sqlite::evalQuery {PRAGMA foreign_keys;}
+		set pragma_foreign_keys $Sqlite::data
+		Sqlite::evalQuery {PRAGMA foreign_keys=0;}
+		set ret [Sqlite::evalQuery $query]
+		Sqlite::evalQuery [format {PRAGMA foreign_keys=%d;} $pragma_foreign_keys]
+		if {$ret != 0} {
 			Sqlite::evalQuery "ROLLBACK;"
 			return 1
 		}
@@ -11625,6 +11656,46 @@ proc GUICmd::TableBuilder::buildCreateQuery {dbname tablename} {;#<<<
 		append query ",\n    CHECK($tableconst(check))"
 		if {[lsearch $conflicttype $tableconst(checkconflict)] >= 0} {
 			append query " ON CONFLICT $tableconst(checkconflict)"
+		}
+	}
+	if {[info exists tableconst(fkey,table)] && $tableconst(fkey,table) ne ""} {
+		append query ",\n    FOREIGN KEY"
+		append query "([join $tableconst(fkey,fromcolumn) {, }])"
+		append query " REFERENCES $tableconst(fkey,table)"
+		append query "([join $tableconst(fkey,tocolumn) {, }])"
+		if {[info exists tableconst(fkey,ondelete)]} {
+			append query " ON DELETE "
+			switch -exact -- $tableconst(fkey,ondelete) {
+				setnull {
+					append query "SET NULL"
+				}
+				setdefault {
+					append query "SET DEFAULT"
+				}
+				cascade {
+					append query "CASCADE"
+				}
+				restrict {
+					append query "RESTRICT"
+				}
+			}
+		}
+		if {[info exists tableconst(fkey,onupdate)]} {
+			append query " ON UPDATE "
+			switch -exact -- $tableconst(fkey,onupdate) {
+				setnull {
+					append query "SET NULL"
+				}
+				setdefault {
+					append query "SET DEFAULT"
+				}
+				cascade {
+					append query "CASCADE"
+				}
+				restrict {
+					append query "RESTRICT"
+				}
+			}
 		}
 	}
 	append query "\n);\n"

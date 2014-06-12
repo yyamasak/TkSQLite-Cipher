@@ -1,4 +1,16 @@
 
+2014-06-12  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.8.2: 
+	- new: sqlite3 v3.8.4.3 with wxSQLite3 v3.1.0 AES 128 bit encryption.
+
+
+2014-06-04  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.8.1: 
+	- fix: TableBuilder removes a foreign key constraint. This is just a workaround for it. It does not consider DEFERRABLE keywords and should support them later.
+
+
 2014-03-30  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.8.0: 
