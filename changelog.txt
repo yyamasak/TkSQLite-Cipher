@@ -1,8 +1,16 @@
 
+2014-07-04  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.8.3: 
+	- new: sqlite3 v3.8.5 with wxSQLite3 v3.1.1 AES 128 bit encryption.
+
+
 2014-06-12  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.8.2: 
 	- new: sqlite3 v3.8.4.3 with wxSQLite3 v3.1.0 AES 128 bit encryption.
+	  Attention: After you open your encrypted database with this version, the format is automatically converted. You cannot open it with the previous version.
+	  http://sourceforge.net/p/wxcode/news/2014/05/wxsqlite3-310-released/#changed-sqlite3-encryption-extension
 
 
 2014-06-04  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
