@@ -1,8 +1,8 @@
 format  {TclDevKit Project File}
 fmtver  2.0
-fmttool {TclDevKit TclApp} 5.3
+fmttool {TclDevKit TclApp} 5.4
 
-##  Saved at : Fri Jul 04 12:39:23 +0900 2014
+##  Saved at : Thu Jan 15 19:04:07 JST 2015
 ##  By       : yusuke@yusuke-t440p
 
 ########
@@ -22,7 +22,7 @@ Path                   Startup
 Pkg/Architecture       win32-ix86
 Pkg/Reference          {Tktable 2.11}
 Pkg/Reference          {Trf 2.1.4}
-Pkg/Reference          {aes 1.0.2}
+Pkg/Reference          {aes 1.2.1}
 Pkg/Reference          {blowfish 1.0.4}
 Pkg/Reference          {des 1.1.0}
 Pkg/Reference          {img::base 1.4.2}
@@ -45,12 +45,12 @@ Pkg/Reference          {md5crypt 1.1.0}
 Pkg/Reference          {pngtcl 1.4.12}
 Pkg/Reference          {sha1 2.0.3}
 Pkg/Reference          {sqlite 2.8.17}
-Pkg/Reference          {sqlite3 3.8.5}
+Pkg/Reference          {sqlite3 3.8.7.4}
 Pkg/Reference          {tifftcl 3.9.4}
 Pkg/Reference          {treectrl 2.4.1}
-Pkg/Reference          {uuid 1.0.2}
+Pkg/Reference          {uuid 1.0.4}
 Pkg/Reference          {zlibtcl 1.2.8}
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2013 OHTSUKA Yoshio, 2012-2014 Y.Yamasaki} FileVersion 0.8.3.0 ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.8.3.0}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2013 OHTSUKA Yoshio, 2012-2015 Y.Yamasaki} FileVersion 0.8.4.0 ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.8.4.0}
 System/Nocompress      0
 System/TempDir         {}
 System/Verbose         0
@@ -59,7 +59,7 @@ Wrap/Compile/Tcl       0
 Wrap/Compile/Version   {}
 Wrap/FSMode            {}
 Wrap/Icon              {}
-Wrap/InputPrefix       C:/Tcl/bin/tclkit-gui-8_6_1-x86-max.exe
+Wrap/InputPrefix       C:/Tcl/bin/tclkit-8.6.3-win32-i586-xcompile.exe
 Wrap/Interpreter       {}
 Wrap/Merge             0
 Wrap/NoProvided        0

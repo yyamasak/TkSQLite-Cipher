@@ -1,0 +1,2 @@
+tclsh build.tcl
+pause

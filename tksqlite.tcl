@@ -33,7 +33,7 @@ exec wish "$0" ${1+"$@"}
 # License
 # ---------------------------------------------------------------------
 set COPYRIGHT {
-Copyright (c) 2004 - 2013 OHTSUKA, Yoshio
+Copyright (c) 2004 - 2014 OHTSUKA, Yoshio
 This program is free to use, modify, extend at will. The author(s)
 provides no warranties, guarantees or any responsibility for usage.
 Redistributions in any form must retain this copyright notice.
@@ -6298,6 +6298,7 @@ namespace eval SQLText {;#<<<
 		insert into values abort fail ignore replace
 		select all distinct where group by having order by limit offset
 		natural left right full outer inner cross join on using collate asc desc
+		with recursive
 		pragma
 		reindex
 		replace
@@ -8883,6 +8884,7 @@ proc Sqlite::publish {query tableName rawdataName} {
 	set _temp [SQLParser::removeComment $_temp]
 	set sqlcmd [string tolower [lindex $_temp 0]]
 	if {$sqlcmd ne "select" && 
+		$sqlcmd ne "with" &&
 		$sqlcmd ne "pragma" &&
 		$sqlcmd ne "explain"} {
 		.table.f.table configure -rows 1 -cols 1
@@ -9132,8 +9134,19 @@ namespace eval Sqlite::func {
 		
 		foreach cmd [info command [namespace current]::*] {
 			set func [namespace tail $cmd]
+
+			#skip internal functions
 			if {$func eq "install"} {continue}
 			if {[string match "_*" $func]} {continue}
+
+			#skip if function exists already.
+			if {[catch {$db eval "select ${func}()"} msg] == 0} {
+				continue
+			}
+			if {[string match "*no such function*" $msg] == 0} {
+				continue
+			}
+
 			$db function $func $cmd
 		}
 	}
@@ -9227,7 +9240,7 @@ namespace eval Sqlite::func {
 
 	# String Format
 	proc ascii     {a} {binary scan $a c x; return $x}
-	#    char      Sqlite built-in
+	proc char      args {set r ""; foreach c $args {append r [binary format c $c]}; return $r}
 	proc concat    args {join $args {}}
 	proc concat_ws {s args} {join $args $s}
 	proc convert {str from to} {
@@ -9253,7 +9266,7 @@ namespace eval Sqlite::func {
 		}
 	}
 	proc elt       {n args} {lindex $args [incr n -1]}
-	#    hex      Sqlite built-in
+	proc hex       {n} {format %X $n}
 	proc initcap   {str} {
 		set ret ""
 		set len [string length $str]
@@ -9274,28 +9287,26 @@ namespace eval Sqlite::func {
 		return $ret
 	}
 	proc insert    {s pos len ns} {string replace $s [expr {$pos-1}] [expr {$pos-2+$len}] $ns} ;#MySQL insert
-	#    instr     Sqlite built-in
- 	proc _instr     {str sstr {st 0} {n 1}} {
- 		if {$n < 1} {return 0}
- 		if {$st >= 0} {
- 			incr st -1
- 			for {set i 0} {$i < $n} {incr i} {
- 				set st [string first $sstr $str $st]
- 				if {$st == -1} {return 0}
- 				incr st
- 			}
- 		} else {
- 			set st [expr {[string length $str] + $st - 1}]
- 			for {set i 0} {$i < $n} {incr i} {
- 				set st [string last $sstr $str $st]
- 				if {$st == -1} {return 0}
- 			}
- 			incr st
- 		}
- 		return $st
- 	}
- 	proc locate    {sstr str pos} {_instr $str $sstr $pos 1}
- 	proc position  {sstr in str} {_instr $str $sstr}
+	proc instr     {str sstr {st 0} {n 1}} {
+		if {$n < 1} {return 0}
+		if {$st >= 0} {
+			incr st -1
+			for {set i 0} {$i < $n} {incr i} {
+				set st [string first $sstr $str $st]
+				if {$st == -1} {return 0}
+				incr st
+			}
+		} else {
+			set st [expr {[string length $str] + $st - 1}]
+			for {set i 0} {$i < $n} {incr i} {
+				set st [string last $sstr $str $st]
+				if {$st == -1} {return 0}
+			}
+			incr st
+		}
+		return $st
+	}
+	proc locate    {sstr str pos} {instr $str $sstr $pos 1}
 	#    left      Sqlite keyword
 	#    length    Sqlite built-in
 	#    lower     Sqlite built-in
@@ -9329,11 +9340,18 @@ namespace eval Sqlite::func {
 			append rstr $c
 		}
 	}
-	#    ltrim     Sqlite built-in
+	proc ltrim     {s {c " "}} {string trimleft $s $c}
 	proc mid       {str pos len} {incr pos -1; string range $str $pos [expr {$pos+$len-1}]}
-	
+	proc position  {sstr in str} {instr $str $sstr}
+    	proc printf    {format args} {
+		set run [list ::format $format]
+		foreach arg $args {
+			lappend run $arg
+		}
+		eval $run
+	}
 	proc repeat    {s n} {string repeat $s $n}
-	#    replace   Sqlite built-in
+	proc replace   {s f t} {string map [list $f $t] $s}
 	proc reverse   {s} {set i [string len $s]; set r ""; while {[incr i -1] >= 0} {append r [string index  $s $i] }; return $r}
 	#    right     Sqlite keyword
 	proc rpad      {s n {p " "}} {
@@ -9352,7 +9370,7 @@ namespace eval Sqlite::func {
 			append ret $c
 		}
 	}
-	#    rtrim     Sqlite built-in
+	proc rtrim     {s {c " "}} {string trimright $s $c}
 	#    substr    Sqlite built-in
 	proc space     {n} {string repeat " " $n}
 	#    strftime  Sqlite built-in
@@ -9364,7 +9382,7 @@ namespace eval Sqlite::func {
 		}
 		string map $map $s
 	}
-	#    trim      Sqlite built-in
+	proc trim      {s {c " "}} {string trim $s $c}
 	proc to_char {num fmt} {
 		set fmt [string map {G , D . L \$} $fmt]
 		if {![string is double $num]} {return "####"}
@@ -9585,6 +9603,18 @@ namespace eval Sqlite::func {
 			return [::sha1::hmac -hex -hey $key $data]
 		}
 	}
+	# sha256, sha256_hmac
+	if {![catch {package require sha256}]} {
+		proc sha256 {data {binary 0}} {
+			set data [_getEncodedByteArray $data $binary]
+			return [::sha2::sha256 -hex $data]
+		}
+		proc sha256_hmac {key data {binary 0}} {
+			set key  [_getEncodedByteArray $key 0]
+			set data [_getEncodedByteArray $data $binary]
+			return [::sha2::hmac -hex -hey $key $data]
+		}
+	}
 	# aes_encrypt, aes_decrypt
 	if {![catch {package require aes}]} {
 		proc aes_encrypt {key data {binary 0}} {
@@ -9684,6 +9714,12 @@ namespace eval Sqlite::func {
 			return $val
 		}
 	}
+
+    #shell execute and return the result.
+    proc exec {command} {
+        catch {eval ::exec $command} msg
+        return $msg
+    }
 }
 
 
