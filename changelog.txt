@@ -1,4 +1,13 @@
 
+2015-01-15  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.8.4: 
+	- new: Merged the original TkSQLite v0.5.11-3 (2014-04-09).
+	- new: Updated basekit from tclkit-gui-8_6_1-x86-max.exe to tclkit-8.6.3-win32-i586-xcompile.exe.
+	  Originally downloaded from http://tclkits.rkeene.org/fossil/wiki/Downloads but removed the embedded sqlite3.8.7.1.
+	- new: sqlite3 v3.8.7.4 with wxSQLite3 v3.2.0 AES 128 bit encryption.
+
+
 2014-07-04  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.8.3: 
