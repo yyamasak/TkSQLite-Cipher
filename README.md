@@ -32,7 +32,7 @@ Google told me a lot of solutions that encrypt and decrypt sqlite database
 and those were very expensive or hard to compile on windows platform.
 
 Then I found an open source project ["wxSQLite3"](http://wxcode.sourceforge.net/components/wxsqlite3/ "wxCode » Components » wxSQLite3").
-It was [relatively easy](http://yusuke-blog.info/20130109/tclsqlite-configuration/ "Tcl SQLite build configuration") 
+It was [relatively easy](http://yusuke-blog.info/20150115/tclsqlite-configuration/ "Tcl SQLite build configuration") 
 to integrate wxSQLite3 and TclSQLite package.
 
 For some time, I was using [SQLite2009 Pro Enterprise Manager](http://osenxpsuite.net/?xp=3 "SQLite2009 Pro Enterprise Manager") 
