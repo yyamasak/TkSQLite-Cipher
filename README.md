@@ -19,8 +19,8 @@ Double click "tksqlite.tcl".
 
 Purpose of this project
 -----------------------
-1. To provide encryption enabled TkSQLite and its binary executable.
-2. To provide encryption enabled TclSQLite package.
+1. To provide encryption enabled TkSQLite and its binary executable for Windows.
+2. To provide encryption enabled TclSQLite package for Windows.
 
 Background
 ----------
