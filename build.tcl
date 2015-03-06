@@ -23,7 +23,7 @@ set out [file join $target_dir tksqlite.$fv.exe]
 if {[file exists $out]} {
 	file delete $out
 }
-file rename $tmp $out
+file copy $tmp $out
 append_line $logfile [clock format [clock seconds]]
 
 exit
