@@ -33,7 +33,7 @@ exec wish "$0" ${1+"$@"}
 # License
 # ---------------------------------------------------------------------
 set COPYRIGHT {
-Copyright (c) 2004 - 2014 OHTSUKA, Yoshio
+Copyright (c) 2004 - 2015 OHTSUKA, Yoshio
 This program is free to use, modify, extend at will. The author(s)
 provides no warranties, guarantees or any responsibility for usage.
 Redistributions in any form must retain this copyright notice.
@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.8.3
+set VERSION 0.8.7
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -3784,6 +3784,13 @@ namespace eval Util {;#<<<
 		
 		proc writeUTF16BOM {fp} {
 			puts -nonewline $fp \uFEFF
+		}
+
+		proc writeUTF8BOM {fp} {
+			set enc [fconfigure $fp -encoding]
+			fconfigure $fp -encoding binary
+			puts -nonewline $fp \xEF\xBB\xBF
+			fconfigure $fp -encoding $enc
 		}
 
 		proc isLittleEndian {fp} {
@@ -13111,6 +13118,7 @@ namespace eval GUICmd::ExportText {;#<<<
 		sep         ","
 		sepcustom   "|"
 		encoding	{}
+		bom         0
 		return      excel
 		title       1
 		directory   {}
@@ -13163,6 +13171,7 @@ proc GUICmd::ExportText::_init {} {;#<<<
 	variable dcombo
 	variable tcombo
 
+	set f $root.f
 	if {![winfo exists $root]} {
 		set root [toplevel $root]
 		wm withdraw $root
@@ -13264,8 +13273,8 @@ proc GUICmd::ExportText::_init {} {;#<<<
 		ttk::radiobutton $f.opt.retLF   -text LF(Unix) -value lf -variable [namespace current]::info(return)
 		ttk::radiobutton $f.opt.retExcel -text Excel -value excel  -variable [namespace current]::info(return)
 		ttk::label $f.opt.lenc -text [msgcat::mc "Output Encoding"] -takefocus 0
-		ttk::combobox $f.opt.enc -state read -textvariable [namespace current]::info(encoding) \
-			-postcommand "$f.opt.enc configure -values \$::pref(enable_encoding)"
+		ttk::combobox $f.opt.enc -state read -textvariable [namespace current]::info(encoding)
+		ttk::checkbutton $f.opt.bom -text [msgcat::mc "BOM"] -variable [namespace current]::info(bom)
 		ttk::checkbutton $f.opt.ttl -text [msgcat::mc "Output Field Names"] -variable [namespace current]::info(title)
 		foreach w [winfo children $f.opt] {
 			Util::bindMouseEvent $w
@@ -13275,6 +13284,15 @@ proc GUICmd::ExportText::_init {} {;#<<<
 		$f.opt.sepTab    configure -command "$f.opt.sepCustomValue state disabled"
 		$f.opt.sepCustom configure -command "$f.opt.sepCustomValue state !disabled"
 		Util::setOneCharValidateToTtkentry $f.opt.sepCustomValue
+
+		$f.opt.enc configure -postcommand "$f.opt.enc configure -values \$::pref(enable_encoding)"
+		bind $f.opt.enc <<ComboboxSelected>> [namespace code [subst {
+			if {\$info(encoding) eq "utf-8" || \$info(encoding) eq "unicode"} {
+				$f.opt.bom configure -state enabled
+			} else {
+				$f.opt.bom configure -state disabled
+			}
+		}]]
 
 		grid $f.opt.in   -row 0 -column 0 -columnspan 5 -sticky news
 		grid $f.opt.lsep     -row 1 -column 0  -sticky w
@@ -13289,6 +13307,7 @@ proc GUICmd::ExportText::_init {} {;#<<<
 		grid $f.opt.retExcel -row 2 -column 4  -sticky ew
 		grid $f.opt.lenc     -row 3 -column 0  -sticky w
 		grid $f.opt.enc      -row 3 -column 1 -columnspan 2 -sticky ew
+		grid $f.opt.bom      -row 3 -column 3  -sticky w
         grid $f.opt.ttl  -row 4 -column 0 -columnspan 4 -sticky ew
 		foreach n {0 1 2 3 4} { grid columnconfigure $f.opt $n -weight 1}
 		pack $f.opt -fill both -side top
@@ -13301,6 +13320,7 @@ proc GUICmd::ExportText::_init {} {;#<<<
 	}
 	initDbList
 	set info(encoding) $::database(encoding)
+	event generate $f <<ComboboxSelected>>
 };#>>>
 
 proc GUICmd::ExportText::export {file} {;#<<<
@@ -13341,8 +13361,12 @@ proc GUICmd::ExportText::export {file} {;#<<<
 		}
 	}
 
-	if {$info(encoding) eq "unicode"} {
+	if {$info(encoding) eq "unicode" && $info(bom) == 1} {
 		::Util::Unicode::writeUTF16BOM $fp
+	}
+
+	if {$info(encoding) eq "utf-8" && $info(bom) == 1} {
+		::Util::Unicode::writeUTF8BOM $fp
 	}
 	
 	set i 0
