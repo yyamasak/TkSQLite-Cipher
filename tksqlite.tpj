@@ -2,7 +2,7 @@ format  {TclDevKit Project File}
 fmtver  2.0
 fmttool {TclDevKit TclApp} 5.4
 
-##  Saved at : Tue Apr 26 11:18:27 JST 2016
+##  Saved at : Thu Jul 14 11:13:54 +0900 2016
 ##  By       : yusuke@yusuke-t440p
 
 ########
@@ -50,7 +50,7 @@ Pkg/Reference          {tifftcl 3.9.4}
 Pkg/Reference          {treectrl 2.4.1}
 Pkg/Reference          {uuid 1.0.4}
 Pkg/Reference          {zlibtcl 1.2.8}
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.8.9.0 LegalCopyright {2004-2015 OHTSUKA Yoshio, 2012-2016 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.8.9.0}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe FileVersion 0.9.0.0 LegalCopyright {2004-2015 OHTSUKA Yoshio, 2012-2016 Y.Yamasaki} ProductName {TkSQLite with wxSQLite3 AES128 encryption} ProductVersion 0.9.0.0}
 System/Nocompress      0
 System/TempDir         {}
 System/Verbose         0

@@ -1,4 +1,10 @@
 
+2016-07-14  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.0: 
+	- new: Merged the original TkSQLite v0.5.13 (2016-04-29)
+
+
 2016-04-26  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.8.9: 

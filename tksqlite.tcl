@@ -3360,46 +3360,20 @@ namespace eval Util {;#<<<
         return "'[string map {' ''} $value]'"
     }
 
-	# set correct width and height of withdrawing window
-	proc updateWindowSize {root {size {}}} {
-		if {[tk windowingsystem] eq "x11"} {
-			if {[wm state $root] eq "withdrawn"} {
-				update
-				set w [winfo reqwidth  $root]
-				set h [winfo reqheight $root]
-				wm geometry $root ${w}x${h}
-			}
-			if {$size ne ""} {wm geometry $root $size}
-			update
-		}
-		if {[tk windowingsystem] eq "win32"} {
-			if {[wm state $root] eq "withdrawn"} {
-				set x [winfo x $root]
-				set y [winfo y $root]
-				wm geometry $root $size+10000+10000
-				wm deiconify $root
-				update idletask
-				wm withdraw $root
-				wm geometry $root +$x+$y
-			} else {
-				if {$size ne ""} {wm geometry $root $size}
-				update idletask
-			}
-		}
-	}
-	
 	proc moveCenter {widget {size {}}} {
-		set sw [winfo vrootwidth $widget]
-		set sh [winfo vrootheight $widget]
-		if {[llength $size] == 0} {
-			update idletask
-			set w [winfo width $widget]
-			set h [winfo height $widget]
-		} else {
-			set w [lindex $size 0]
-			set h [lindex $size 1]
+		update idletask
+		scan [winfo geometry $widget] "%dx%d+%d+%d" ww wh wx wy
+		scan [winfo geometry       .] "%dx%d+%d+%d" rw rh rx ry
+		if {$ww == 1} {
+			if {[llength $size] >= 2} {
+				set ww [lindex $size 0]
+				set wh [lindex $size 1]
+			}
 		}
-		wm geometry $widget +[expr {($sw-$w)/2}]+[expr {($sh-$h)/2}]
+		set nx [expr {$rx + ($rw - $ww) / 2}]
+		set ny [expr {$ry + ($rh - $wh) / 2}]
+
+		wm geometry $widget +${nx}+${ny}
 	}
 	
 	# Nested grab command
@@ -4541,14 +4515,6 @@ proc GetString::show {title message {defaultval {}} {parent .}} {
 	set state show
 
 	wm withdraw $root
-#    lower $root .
-#    ::Util::moveCenter $root
-#    Util::ngrab set $root
-#    wm transient $root $parent
-#    wm deiconify $root
-#    focus -force $root.f.entry
-#    tkwait var [namespace current]::state
-#    Util::ngrab release
 
 	wm transient $root $parent
 	::tk::PlaceWindow $root widget .
@@ -9855,6 +9821,7 @@ namespace eval Tool::Searcher {;#<<<
 		pattern none
 		nocase 1
 	}
+	variable iniSize {290 140}
 }
 
 proc Tool::Searcher::dump {} {
@@ -9865,6 +9832,8 @@ proc Tool::Searcher::dump {} {
 proc Tool::Searcher::run {} {
 	variable info
 	variable root
+	variable iniSize
+
 	if {![winfo exists $root]} {
 		set root [toplevel $root]
 		wm withdraw $root
@@ -9942,10 +9911,10 @@ proc Tool::Searcher::run {} {
 
 		grid $of -row 2 -column 0 -columnspan 3 -sticky news -pady 4
  		
-		::Util::updateWindowSize $root
 		wm transient $root .
 		wm resizable $root 0 0
-		Util::moveCenter $root
+		wm withdraw $root
+		Util::moveCenter $root $iniSize
 	}
 	wm deiconify $root
 	raise $root
@@ -10096,8 +10065,6 @@ namespace eval Tool::DataEditor {;#<<<
 	variable info
 	array set info {
 		currenttab 0
-		inisize   {290 240}
-		minsize   {200 150}
 
 		rawdata   {}
 
@@ -10113,6 +10080,8 @@ namespace eval Tool::DataEditor {;#<<<
 		drag      0
 		badimage  1
 	}
+	variable iniSize   {290 240}
+	variable minSize   {200 150}
 	variable state ""
 }
 
@@ -10154,6 +10123,8 @@ proc Tool::DataEditor::_init {} {;#<<<
 	variable text
 	variable info
 	variable root
+	variable iniSize
+	variable minSize
 
 	if {![winfo exists $root]} {
 		if {[LoadTkImg]} {
@@ -10285,10 +10256,11 @@ proc Tool::DataEditor::_init {} {;#<<<
 
 		# set size
 		wm transient $root .
-		eval [subst {wm minsize $root $info(minsize)}]
-		::Util::updateWindowSize $root [join $info(inisize) x]
-		::Util::moveCenter $root $info(inisize)
-;#        wm resizable $root 0 0
+		eval [subst {wm minsize $root $minSize}]
+		wm withdraw $root
+		::Util::moveCenter $root $iniSize
+		wm deiconify $root
+
 		setInfo \
 			{} \
 			{} \
@@ -10579,14 +10551,14 @@ namespace eval GUICmd::TableBuilder {;#<<<
 	variable columnDialogStatus cancel
 	# vars
 	array set info {
-		iniSize {560 320}
-		minSize {560 320}
 		runmode   create
 		showonly  0
 		dbname    ""
 		tablename ""
 		oldtabledata {}
 	}
+	variable iniSize {560 320}
+	variable minSize {560 320}
 	variable conflicttype [list ROLLBACK ABORT FAIL IGNORE REPLACE]
 	array set tableconst {check "" checkconflict ""}
 }
@@ -10656,6 +10628,8 @@ proc GUICmd::TableBuilder::_init {{tabledata {}}} {;#<<<
 	variable info
 	variable conflicttype
 	variable tableconst
+	variable minSize
+	variable iniSize
 
 	if {$root eq ""} {
 		set cancelAction [namespace code {
@@ -10874,9 +10848,12 @@ proc GUICmd::TableBuilder::_init {{tabledata {}}} {;#<<<
 		bind $tree <Delete>    +[namespace code deleteColumn]
 
 		# root size
-		eval [subst {wm minsize $root $info(minSize)}]
-		::Util::updateWindowSize $root [join $info(iniSize) x]
-		::Util::moveCenter $root $info(iniSize)
+		eval [subst {wm minsize $root $minSize}]
+		wm geometry $root [join $iniSize x]
+
+		wm withdraw $root
+		::Util::moveCenter $root $iniSize
+		wm deiconify $root
 	}
 	# Clean
 	$tree item delete all
@@ -11390,8 +11367,9 @@ proc GUICmd::TableBuilder::setColumnDialog { {data {}} } {;#<<<
 		pack $columnDialog.f.cmd -side right -fill x -pady {4 0}
 
 		wm resizable $columnDialog 1 0
-		::Util::updateWindowSize $columnDialog
+		wm withdraw $columnDialog
 		::Util::moveCenter $columnDialog 
+		wm deiconify $columnDialog
 	}
 	# Clear
 	$columnDialog.f.n.name delete 0 end
@@ -12074,7 +12052,10 @@ proc GUICmd::CreateIndex::_init {} {
 		$root.f.cmd.ok configure -command [namespace code {
 			if {[runSQL]==0} {wm withdraw $root; set state ok}}]
 		$root.f.cmd.cancel configure -command $cancelAction
+
+		wm withdraw $root
 		::Util::moveCenter $root $iniSize
+		wm deiconify $root
 	}
 	# Clear
 	initDBList
@@ -12592,11 +12573,8 @@ proc GUICmd::Preference::run {} {
 	# Init 
 	wm transient $root .
 	::tk::SetFocusGrab $root $root
-	if {[winfo width $root] == 1} {
-		::Util::moveCenter $root $iniSize
-	} else {
-		::Util::moveCenter $root
-	}
+	wm withdraw $root
+	::Util::moveCenter $root $iniSize
 	wm deiconify $root
 	focus -force $root
 	raise $root
@@ -13142,11 +13120,8 @@ proc GUICmd::ExportText::run {} {;#<<<
 	# Init 
 	wm transient $root .
 	::tk::SetFocusGrab $root $root
-	if {[winfo width $root] == 1} {
-		::Util::moveCenter $root $iniSize
-	} else {
-		::Util::moveCenter $root
-	}
+	wm withdraw $root
+	::Util::moveCenter $root $iniSize
 	wm deiconify $root
 	focus -force $root
 	raise $root
@@ -13313,9 +13288,6 @@ proc GUICmd::ExportText::_init {} {;#<<<
 		pack $f.opt -fill both -side top
 
 		# root size
-		::Util::updateWindowSize $root
-;#        wm geometry $root [join $iniSize x]
-;#        eval wm minsize $root $iniSize
 		wm resizable $root 0 0
 	}
 	initDbList
@@ -13432,11 +13404,8 @@ proc GUICmd::ImportText::run {} {
 	# Init 
 	wm transient $root .
 	::tk::SetFocusGrab $root $root
-	if {[winfo width $root] == 1} {
-		::Util::moveCenter $root $iniSize
-	} else {
-		::Util::moveCenter $root
-	}
+	wm withdraw $root
+	::Util::moveCenter $root $iniSize
 	wm deiconify $root
 	focus -force $root
 	raise $root
@@ -13612,9 +13581,6 @@ proc GUICmd::ImportText::_init {} {
 		pack $f.opt -fill both -side top
 
 		# root size
-		::Util::updateWindowSize $root
-;#        wm geometry $root [join $iniSize x]
-;#        eval wm minsize $root $iniSize
 		wm resizable $root 0 0
 	}
 	initDbList
@@ -13935,11 +13901,8 @@ proc GUICmd::SetCacheSize::run {} {;#<<<
 	# Init 
 	wm transient $root .
 	::tk::SetFocusGrab $root $root
-	if {[winfo width $root] == 1} {
-		::Util::moveCenter $root $iniSize
-	} else {
-		::Util::moveCenter $root
-	}
+	wm withdraw $root
+	::Util::moveCenter $root $iniSize
 	wm deiconify $root
 	focus -force $root
 	raise $root
@@ -14078,7 +14041,6 @@ proc GUICmd::SetCacheSize::_init {} {
 		}]
 		trace add variable [namespace current]::info(type) write [namespace current]::changeRadio
 
-		::Util::updateWindowSize $root
  		$f.detail configure -wraplength [expr {[winfo reqwidth $f] - 20}]
 		wm resizable $root 0 0
 	}
@@ -14837,14 +14799,40 @@ proc Cmd::bindTextFocusTtkEntry {text frame} {
 # dump main window infomation
 proc Cmd::dump {} {
 	set session ""
-	append session "wm geometry . [winfo width .]x[winfo height .]\n"
-	append session "wm geometry . +[winfo x .]+[winfo y .]\n"
+	set zoomed 0
+
+	if {[tk windowingsystem] eq "x11"} {
+		if {[wm attribute . -zoomed] == 1} {
+			set zoomed 1
+			wm attribute . -zoomed 0
+			tkwait visibility .
+			after 500
+			update
+		}
+	} else {
+		if {[wm state .] eq "zoomed"} {
+			set zoomed 1
+			wm state . normal
+			#tkwait visibility .
+			update
+		}
+	}
+	append session "wm geometry . [wm geometry .]\n"
 	append session "wm deiconify .\n"
 	append session "update\n"
 	append session ".root  sashpos 0 [.root  sashpos 0]\n"
 	append session ".left  sashpos 0 [.left  sashpos 0]\n"
 	append session ".right sashpos 0 [.right sashpos 0]\n"
 	append session ".right sashpos 1 [.right sashpos 1]\n"
+
+	if {$zoomed == 1} {
+		if {[tk windowingsystem] eq "x11"} {
+			append session "wm attribute . -zoomed 1\n"
+		} else {
+			append session "wm state . zoomed\n"
+		}
+	}
+
 	append session "update\n"
 	
 	append session "set ::pref(enable_encoding) [list $::pref(enable_encoding)]\n"
