@@ -1,4 +1,10 @@
 
+2017-01-31  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.2: 
+	- new: sqlite3 v3.16.2 with wxSQLite3 v3.5.0 AES 128 bit encryption.
+
+
 2016-10-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.1: 
