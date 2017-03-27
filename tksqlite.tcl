@@ -454,6 +454,10 @@ package require msgcat
 
 {Update} "\u66f4\u65b0"
 
+{Freeze Pane} "\u67a0\u3092\u56fa\u5b9a"
+
+{Unfreeze Pane} "\u67a0\u56fa\u5b9a\u3092\u89e3\u9664"
+
 {Sort Asc as Number} "\u6607\u9806\u3067\u30bd\u30fc\u30c8(\u6570\u5024)"
 
 {Sort Desc as Number} "\u964d\u9806\u3067\u30bd\u30fc\u30c8(\u6570\u5024)"
@@ -7212,6 +7216,11 @@ proc Table::Table {} {;#<<<
 	.table.pop add command -label [msgcat::mc Copy] -accelerator "$::pref(shortmod)+C" \
 		-command "tk_tableCopy $tablew"
 	.table.pop add separator
+	.table.pop add command -label [msgcat::mc "Freeze Pane"] \
+		-command [namespace code {freezePane}]
+	.table.pop add command -label [msgcat::mc "Unfreeze Pane"] \
+		-command [namespace code {unfreezePane}]
+	.table.pop add separator
 	.table.pop add command -label [msgcat::mc "Sort Asc as String"] -command {
 		::Table::sort [.table.f.table index active col] incr dictionary
 	}
@@ -7333,6 +7342,24 @@ proc Table::Table {} {;#<<<
 	RowEditor::RowEditor .table $tablew
 	
 	return .table
+}
+
+proc Table::freezePane {} {
+	variable tablew
+	
+	set rcs [$tablew curselection]
+	set idx [lindex $rcs 0]
+	if {$idx ne {}} {
+		set row [$tablew index $idx row]
+		set col [$tablew index $idx col]
+		$tablew configure -titlerows $row -titlecols $col
+	}
+}
+
+proc Table::unfreezePane {} {
+	variable tablew
+	
+	$tablew configure -titlerows 1 -titlecols 1
 }
 
 proc Table::useViBind {n1 n2 op} {
