@@ -1,4 +1,11 @@
 
+2018-12-18  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.12: 
+	- new: sqlite3 v3.26.0 with wxSQLite3 v4.4.0 AES 128 bit encryption.
+	- new: Added extended_errorcode Tcl API which is not supported by the official tclsqlite3.
+
+
 2018-06-12  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.11: 
