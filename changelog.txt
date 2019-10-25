@@ -1,4 +1,10 @@
 
+2019-10-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.15.1: 
+	- fix: sqlite3 v3.29.0 did not have extended_errorcode.
+
+
 2019-08-19  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.15: 
