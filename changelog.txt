@@ -1,6 +1,9 @@
 
 2019-10-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
+	* 0.9.16.0: 
+	- new: sqlite3 v3.30.1 with wxSQLite3 v4.4.8 AES 128 bit encryption.
+
 	* 0.9.15.1: 
 	- fix: sqlite3 v3.29.0 did not have extended_errorcode.
 
