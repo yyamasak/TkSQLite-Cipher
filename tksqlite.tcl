@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.9.15
+set VERSION 0.9.17
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -141,6 +141,15 @@ if {$tcl_platform(platform) ne "windows"} {
 ;#${tile_ns}::setTheme clam
 ;#${tile_ns}::setTheme default
 set tile_currentTheme [set ${tile_ns}::currentTheme]
+
+# Tk 8.6.9 compatible patch to ttk
+proc ttk::treeview::Toggle {w item} {
+    if {[$w item $item -open]} {
+	CloseItem $w $item
+    } else {
+	OpenItem $w $item
+    }
+}
 
 #
 # Base64
