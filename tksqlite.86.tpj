@@ -41,7 +41,7 @@ Wrap/Compile/Tcl       0
 Wrap/Compile/Version   {}
 Wrap/FSMode            {}
 Wrap/Icon              {}
-Wrap/InputPrefix       C:/Tcl/bin/tclkit-gui-8_6_11-twapi-4_5_2-x64-max.exe
+Wrap/InputPrefix       C:/Tcl/bin/tclkit-gui-8_6_11-twapi-4_5_2-x86-max.exe
 Wrap/Interpreter       {}
 Wrap/Merge             0
 Wrap/NoProvided        0

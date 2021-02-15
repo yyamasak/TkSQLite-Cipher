@@ -1,7 +1,8 @@
 
-2021-02-13  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+2021-02-15  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.18.0: 
+	- bug: Could not open encrypted database (since v0.9.17.0.)
 	- new: sqlite3 v3.34.1 with SQLite3MultipleCiphers v1.1.4 AES 128 bit encryption by default.
 	  CFLAGS="-DSQLITE_HAS_CODEC -DCODEC_TYPE=CODEC_TYPE_AES128 -DSQLITE_ENABLE_FTS5=1 -msse4.2 -maes"
 

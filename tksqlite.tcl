@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.9.17
+set VERSION 0.9.18
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -8227,12 +8227,11 @@ proc Sqlite::open {filename version} {
 
 	cd [file dirname $filename]
 
-	if {$::encryption_key ne {}} {
-		sqlite db [file tail $filename] -key $::encryption_key
-	} else {
-		sqlite db [file tail $filename]
-	}
+	sqlite db $::database(name)
 	interp alias {} db $interp($version) db
+	if {$::encryption_key ne {}} {
+		db eval [format {PRAGMA key='%s';} $::encryption_key]
+	}
 	set data {}
 	if {[getCurrentVersion] == 3} {
 		updateInfo
