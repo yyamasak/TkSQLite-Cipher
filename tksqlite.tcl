@@ -142,15 +142,6 @@ if {$tcl_platform(platform) ne "windows"} {
 ;#${tile_ns}::setTheme default
 set tile_currentTheme [set ${tile_ns}::currentTheme]
 
-# Tk 8.6.9 compatible patch to ttk
-proc ttk::treeview::Toggle {w item} {
-    if {[$w item $item -open]} {
-	CloseItem $w $item
-    } else {
-	OpenItem $w $item
-    }
-}
-
 #
 # Base64
 #
@@ -5771,6 +5762,7 @@ proc Dbtree::Dbtree {} {
 		-yscrollcommand {.dbtree.f.y set}
 	bind .dbtree.f.tree <<TreeviewSelect>> {::Cmd::updateProperty}
 	bind .dbtree.f.tree <<TreeviewOpen>>   {::Dbtree::openItem %W}
+	bind .dbtree.f.tree <Double-1> {::Dbtree::openItem %W}
 	Cmd::bindTextFocusTtkEntry .dbtree.f.tree .dbtree.f 
 	
 	# Flatten relief
