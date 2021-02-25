@@ -15152,7 +15152,7 @@ proc ModalFormDialog::show {title msg create} {
 	$popdown.f.l configure -font [$t.cx cget -font]
 	
 	ttk::label $t.kl -text "Key"
-	ttk::entry $t.ke -show "*" -textvariable [namespace current]::params(key)
+	ttk::entry $t.ke -width 24 -show "*" -textvariable [namespace current]::params(key)
 	
 	ttk::checkbutton $t.x -variable [namespace current]::params(show) -command [namespace code "on_toggle_show_password $t"]
 	bind $t.ke <Return> [namespace code {on_click OK}]
@@ -15161,10 +15161,10 @@ proc ModalFormDialog::show {title msg create} {
 	ttk::button $t.clear  -text "Clear"  -command [namespace code {on_click Clear}]
 	ttk::button $t.cancel -text "Cancel" -command [namespace code {on_click Cancel}]
 	
-	grid $t.ttl -        -         -         -    -sticky news
-	grid $t.cl  $t.cx
-	grid $t.kl  $t.ke    -         -         $t.x -sticky news
-	grid $t.ok  $t.clear $t.cancel x         x
+	grid $t.ttl -        -         x    -sticky nsw
+	grid $t.cl  $t.cx    -         x    -sticky nsw
+	grid $t.kl  $t.ke    -         $t.x -sticky nsw
+	grid $t.ok  $t.clear $t.cancel x    -sticky nsw
 	
 	vwait [namespace which -variable res]
 	destroy $t
