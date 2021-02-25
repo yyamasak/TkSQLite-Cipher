@@ -1,7 +1,7 @@
-TkSQLite-AES128
+TkSQLite-Cipher
 ===============
 
-TkSQLite with AES 128bit encryption support
+TkSQLite powered by SQLite3 Multiple Ciphers written by Ulrich Telle.
 
 Installation (single binary executable)
 ---------------------------------------
@@ -12,8 +12,8 @@ Double click "tksqlite.exe".
 
 Installation (Tcl script)
 -------------------------
-Install ActiveTcl (>=8.4).
-Download "/tksqlite.tcl" and "/sqlite3-aes128/sqlite-3.x.x.x-aes128".
+Install Tcl (>=8.5).
+Download "/tksqlite.tcl" and sqlite-3.x.x.x-aes128.zip.
 Place tksqlite.tcl in any folder and sqlite-3.x.x.x-aes128 in Tcl/lib folder.
 Double click "tksqlite.tcl".
 
