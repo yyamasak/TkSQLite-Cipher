@@ -1,4 +1,17 @@
 
+2021-02-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.19.0: 
+	- new: The following cipher schema can be specified to create, open or attach a database.
+	  + aes128cbc
+	  + aes256cbc
+	  + chacha20
+	  + sqlcipher
+	  + rc4
+	- new: sqlite3 v3.34.1 with SQLite3MultipleCiphers v1.1.4 AES 128 bit encryption by default and URI file names are supported.
+	  CFLAGS="-DCODEC_TYPE=CODEC_TYPE_AES128 -DSQLITE_USE_URI -msse4.2 -maes"
+
+
 2021-02-16  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.18.0: 
