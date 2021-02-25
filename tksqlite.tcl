@@ -14152,6 +14152,7 @@ proc Cmd::openDB {filename {version {}}} {
 		}
 	} else {
 		array set ::cipher_params {
+			cipher "plain"
 			key ""
 		}
 	}
