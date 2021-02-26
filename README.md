@@ -47,6 +47,10 @@ Limitations
 -----------
 tclsqlite3 binary package is provided only for Windows 32bit platform.
 
+Build it yourself
+-----------
+https://yusuke-blog.info/20210225/tclsqlite-configuration/
+
 Screenshot
 ----------
 ![TkSQLite screenshot](https://raw.github.com/yyamasak/TkSQLite-AES128/master/img/TkSQLite-aes128-Screenshot.png "TkSQLite-aes128 screenshot")
