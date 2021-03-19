@@ -46,6 +46,7 @@ Since v0.9.19, it has been renamed to TkSQLite-Cipher because it supports more c
 Limitations
 -----------
 tclsqlite3 binary package is provided only for Windows 32bit platform.
+This is not a technical limitation. I just don't need 64bit binary. So it's hard for me to keep my motivation to build both every time.
 
 Build it yourself
 -----------
