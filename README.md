@@ -1,7 +1,7 @@
 TkSQLite-Cipher
 ===============
 
-TkSQLite powered by [SQLite3 Multiple Ciphers](https://github.com/utelle/SQLite3MultipleCiphers) written by Ulrich Telle.
+TkSQLite powered by [SQLite3 Multiple Ciphers](https://github.com/utelle/SQLite3MultipleCiphers) by Ulrich Telle.
 
 Installation
 ---------------------------------------
