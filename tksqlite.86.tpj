@@ -29,10 +29,10 @@ Pkg/Reference          {md5 2.0.7}
 Pkg/Reference          {md5crypt 1.1.0}
 Pkg/Reference          {sha1 2.0.4}
 Pkg/Reference          {sqlite 2.8.17}
-Pkg/Reference          {sqlite3 3.34.1}
+Pkg/Reference          {sqlite3 3.35.2}
 Pkg/Reference          {treectrl 2.4.1}
 Pkg/Reference          {uuid 1.0.7}
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2016 OHTSUKA Yoshio, 2012-2021 Y.Yamasaki} FileVersion 0.9.19.0 ProductName {TkSQLite with sqlite3mc AES128 encryption} ProductVersion 0.9.19.0}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2016 OHTSUKA Yoshio, 2012-2021 Y.Yamasaki} FileVersion 0.9.20.0 ProductName {TkSQLite with sqlite3mc AES128 encryption} ProductVersion 0.9.20.0}
 System/Nocompress      0
 System/TempDir         {}
 System/Verbose         0
