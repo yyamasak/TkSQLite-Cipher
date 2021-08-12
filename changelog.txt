@@ -1,4 +1,10 @@
 
+2021-07-05  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.22.1: 
+	- mod: Downgraded tclkit version from v8.6.11 to v8.6.10 to restore the behavior of Database tree items.
+
+
 2021-06-25  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.22.0: 
