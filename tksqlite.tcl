@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.9.22
+set VERSION 0.9.23
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
@@ -8158,7 +8158,8 @@ proc Sqlite::create {version} {
 	open $filename $version
 	if {$::cipher_params(cipher) ne "plain" && $::cipher_params(key) ne ""} {
 		db eval [format {PRAGMA cipher='%s';} $::cipher_params(cipher)]
-		db eval [format {PRAGMA rekey='%s'} $::cipher_params(key)]
+		db eval [format {PRAGMA legacy=%d;} $::cipher_params(legacy)]
+		db eval [format {PRAGMA rekey='%s';} $::cipher_params(key)]
 	}
 	return $filename
 }
@@ -8227,7 +8228,11 @@ proc Sqlite::open {filename version} {
 	interp alias {} db $interp($version) db
 	if {$::cipher_params(cipher) ne "plain" && $::cipher_params(key) ne ""} {
 		db eval [format {PRAGMA cipher='%s';} $::cipher_params(cipher)]
+		db eval [format {PRAGMA legacy=%d;} $::cipher_params(legacy)]
 		db eval [format {PRAGMA key='%s';} $::cipher_params(key)]
+		if {$::cipher_params(cipher) eq "sqlcipher"} {
+			db eval {SELECT * FROM sqlite_master;}; # any query is necessary before PRAGMA encoding;
+		}
 	}
 	set data {}
 	if {[getCurrentVersion] == 3} {
@@ -14110,10 +14115,16 @@ namespace eval Cmd {};#<<<
 proc Cmd::createDB {version} {
 	if {$version == 3 && [ModalFormDialog::show "Cipher key" "Input password:" 1]} {
 		array set ::cipher_params [ModalFormDialog::get]
+		set legacy 0
+		if {$::cipher_params(cipher) eq "sqlcipher"} {
+			set legacy 4
+		}
+		set ::cipher_params(legacy) $legacy
 		ModalFormDialog::clear
 	} else {
 		array set ::cipher_params {
 			cipher "plain"
+			legacy 0
 			key ""
 		}
 	}
@@ -14141,6 +14152,11 @@ proc Cmd::openDB {filename {version {}}} {
 	if {[catch {::Sqlite::tryOpen $filename $version} ret]} {
 		if {[ModalFormDialog::show "Cipher key" "Input password:" 0]} {
 			array set ::cipher_params [ModalFormDialog::get]
+			set legacy 0
+			if {$::cipher_params(cipher) eq "sqlcipher"} {
+				set legacy 4
+			}
+			set ::cipher_params(legacy) $legacy
 			ModalFormDialog::clear
 			set ret 3
 		} else {
@@ -14153,6 +14169,7 @@ proc Cmd::openDB {filename {version {}}} {
 	} else {
 		array set ::cipher_params {
 			cipher "plain"
+			legacy 0
 			key ""
 		}
 	}
@@ -14190,6 +14207,11 @@ proc Cmd::attachDB {} {
 	if {[catch {::Sqlite::tryOpen $file {}} ret]} {
 		if {[ModalFormDialog::show "Cipher key" "Input password:" 0]} {
 			array set cipher_params [ModalFormDialog::get]
+			set legacy 0
+			if {$cipher_params(cipher) eq "sqlcipher"} {
+				set legacy 4
+			}
+			set cipher_params(legacy) $legacy
 			ModalFormDialog::clear
 		} else {
 			return
@@ -14221,7 +14243,7 @@ proc Cmd::attachDB {} {
 	# Because if db name has white space, we can't detach it on sqlite2. 
 	# See Cmd::detachDB proc too.
 	if {$cipher_params(key) ne {}} {
-		set file [format {file:%s?cipher=%s&key=%s} $file $cipher_params(cipher) $cipher_params(key)]
+		set file [format {file:%s?cipher=%s&legacy=%d&key=%s} $file $cipher_params(cipher) $cipher_params(legacy) $cipher_params(key)]
 	}
 	set query "attach '$file' as [lindex $name 0];"
 	if {[Sqlite::evalQuery $query] != 0} {

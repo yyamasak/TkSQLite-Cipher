@@ -1,4 +1,10 @@
 
+2021-09-10  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.23.0: 
+	- mod: Supported SQLCipher 4 legacy mode cipher. The default mode of SQLite3MultipleCiphers is not supported.
+
+
 2021-07-05  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.22.1: 
