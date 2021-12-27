@@ -117,7 +117,7 @@ ohtsuka.yoshio@gmail.com
 # - On Linux all tk widgets disallow keyboard input, if encoding system 
 #   is unicode.
 #;#>>>
-set VERSION 0.9.23
+set VERSION 0.9.24
 package require Tk 8.4
 package require Tktable
 if {[info tclversion] < 8.5} {
