@@ -2,7 +2,7 @@ format  {TclDevKit Project File}
 fmtver  2.0
 fmttool {TclDevKit TclApp} 5.4
 
-##  Saved at : Fri Sep 09 11:49:28 JST 2022
+##  Saved at : Fri Oct 14 16:30:21 JST 2022
 ##  By       : yusuke@yusuke-x1ext2
 
 ########
@@ -29,10 +29,10 @@ Pkg/Reference          {md5 2.0.7}
 Pkg/Reference          {md5crypt 1.1.0}
 Pkg/Reference          {sha1 2.0.4}
 Pkg/Reference          {sqlite 2.8.17}
-Pkg/Reference          {sqlite3 3.39.3}
+Pkg/Reference          {sqlite3 3.39.4}
 Pkg/Reference          {treectrl 2.4.1}
 Pkg/Reference          {uuid 1.0.7}
-StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2016 OHTSUKA Yoshio, 2012-2022 Y.Yamasaki} FileVersion 0.9.25.2 ProductName {TkSQLite with sqlite3mc AES128 encryption} ProductVersion 0.9.25.2}
+StringInfo             {Language 0409 CodePage 04b0 FileDescription TkSQLite CompanyName {} OriginalFilename tksqlite.exe LegalCopyright {2004-2016 OHTSUKA Yoshio, 2012-2022 Y.Yamasaki} FileVersion 0.9.25.3 ProductName {TkSQLite with sqlite3mc AES128 encryption} ProductVersion 0.9.25.3}
 System/Nocompress      0
 System/TempDir         {}
 System/Verbose         0
