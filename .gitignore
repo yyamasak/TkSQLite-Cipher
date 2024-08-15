@@ -16,3 +16,6 @@
 /test.db
 /*.url
 /tksqlite.png
+*.log
+tksqlite.exe
+tksqlite.backup.exe

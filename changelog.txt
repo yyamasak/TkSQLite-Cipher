@@ -1,4 +1,11 @@
 
+2024-08-15  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
+
+	* 0.9.25.5: 
+	- new: sqlite3 v3.46.1 with SQLite3MultipleCiphers v1.8.7 AES 128 bit encryption by default and URI file names are supported.
+	  CFLAGS="-DCODEC_TYPE=CODEC_TYPE_AES128 -DSQLITE_USE_URI -msse4.2 -maes"
+
+
 2022-12-21  Yusuke Yamasaki  <yusuke.yamasaki@iasinc.jp>
 
 	* 0.9.25.4: 
